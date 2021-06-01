@@ -4,7 +4,7 @@
 
   <groupId>com.bluetrainsoftware.composites</groupId>
   <artifactId>composite-common</artifactId>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.1</version>
   <name>composite-common</name>
 
   <description>
@@ -32,7 +32,7 @@
     <connection>scm:git:git@github.com:rvowles.git/bluetrain.git</connection>
     <developerConnection>scm:git:git@github.com:rvowles.git/bluetrain.git</developerConnection>
     <url>https://github.com/rvowles/bluetrain.git</url>
-    <tag>HEAD</tag>
+    <tag>composite-common-1.1</tag>
   </scm>
 
   <dependencies>
