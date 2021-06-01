@@ -4,7 +4,7 @@
 
   <groupId>com.bluetrainsoftware.composites</groupId>
   <artifactId>composite-test</artifactId>
-  <version>1.1</version>
+  <version>1.2-SNAPSHOT</version>
   <name>composite-test</name>
 
   <description>
@@ -32,7 +32,7 @@
     <connection>scm:git:git@github.com:rvowles.git/bluetrain.git</connection>
     <developerConnection>scm:git:git@github.com:rvowles.git/bluetrain.git</developerConnection>
     <url>https://github.com/rvowles/bluetrain.git</url>
-    <tag>composite-test-1.1</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <dependencies>
