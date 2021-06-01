@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.bluetrainsoftware.tiles</groupId>
+  <artifactId>tile-release</artifactId>
+  <version>1.1-SNAPSHOT</version>
+  <packaging>tile</packaging>
+  <name>tile-release</name>
+
+  <description>
+    The SDKs for Java are released to Apache Maven Central. This tile controls this process.
+  </description>
+
+  <url>https://github.com/rvowles</url>
+  <developers>
+    <developer>
+      <email>richard@bluetrainsoftware.com</email>
+      <id>rvowles</id>
+      <name>Richard Vowles</name>
+      <organization>Blue Train Software Ltd</organization>
+    </developer>
+  </developers>
+
+  <licenses>
+    <license>
+      <name>MIT</name>
+      <url>https://opensource.org/licenses/MIT</url>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:git@github.com:rvowles.git/bluetrain.git</connection>
+    <developerConnection>scm:git:git@github.com:rvowles.git/bluetrain.git</developerConnection>
+    <url>https://github.com/rvowles/bluetrain.git</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>io.repaint.maven</groupId>
+        <artifactId>tiles-maven-plugin</artifactId>
+        <version>2.22</version>
+        <extensions>true</extensions>
+        <configuration>
+          <filtering>false</filtering>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.6</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.7</version>
+        <executions>
+          <execution>
+            <id>deploy</id>
+            <goals>
+              <goal>deploy</goal>
+            </goals>
+            <phase>deploy</phase>
+          </execution>
+        </executions>
+        <configuration>
+          <serverId>sonatype-staging</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>net.stickycode.plugins</groupId>
+        <artifactId>bounds-maven-plugin</artifactId>
+        <version>2.7</version>
+      </plugin>
+      <plugin>
+        <groupId>com.bluetrainsoftware.maven</groupId>
+        <artifactId>release-pom</artifactId>
+        <version>1.6</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>1.0</version>
+        <!-- Invocation is defined by the release plugin goal set hence no executions -->
+        <configuration>
+          <rules>
+            <requireMavenVersion>
+              <version>[3.3.9,)</version>
+            </requireMavenVersion>
+            <requireReleaseDeps>
+              <!--  Don't allow releases with snapshop deps or parents -->
+              <message>No Snapshots Allowed!</message>
+              <failWhenParentIsSnapshot>true</failWhenParentIsSnapshot>
+              <searchTransitive>true</searchTransitive>
+            </requireReleaseDeps>
+          </rules>
+          <fail>true</fail>
+
+        </configuration>
+      </plugin>
+      <plugin> <!-- unlike with subversion, this doesn't require overriding because releases are always done from local -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.3</version>
+        <configuration>
+          <mavenExecutorId>forked-path</mavenExecutorId>
+          <arguments>-Dbluetrain.release</arguments>
+          <preparationGoals>clean enforcer:enforce verify</preparationGoals>
+          <goals>bounds:update release-pom:release-pom enforcer:enforce deploy</goals>
+          <tagBase>${project.groupId}/</tagBase>
+          <pushChanges>false</pushChanges>
+          <localCheckout>true</localCheckout>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>3.0.0</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.2.0</version>
+        <configuration>
+          <source>8</source>
+          <detectJavaApiLink>false</detectJavaApiLink>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+
+</project>
